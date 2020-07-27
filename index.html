@@ -11,7 +11,7 @@
 
 <body class="container">
 
-<br> <br>
+    <br> <br>
     <table class="table" id="table">
         <tr>
             <td>Resim</td>
@@ -26,19 +26,25 @@
         document.getElementById("btn").addEventListener("click", function () {
             const xhr = new XMLHttpRequest();
 
-            const tbl=document.getElementById("table");
-            /*  xhr.onreadystatechange=function(){
-                  if(this.status==200 && this.readyState==4){
-                      console.log(this.responseText);
-                  }
-              }*/
+            const tbl = document.getElementById("table");
             xhr.open("GET", "https://cors-anywhere.herokuapp.com/http://mrevyap.k12.tr/mob_uygulama/haberler.php", true)
-            xhr.send();
+           
+
             xhr.onload = function () {
                 if (this.status == 200) {
-                    console.log(JSON.parse(this.responseText));
+                    const news = JSON.parse(this.responseText);
+                    
 
-                    tbl.innerHTML=´ ´
+                    news.forEach(function (neww) {
+
+
+                        tbl.innerHTML += `<tr>
+                                        <td><img src="${neww.resim}"
+                                            class="img-thumbnail"> </td>
+                                        <td>${neww.baslik}</td>
+                                        <td><a href="http://mrevyap.k12.tr/mob_uygulama/haberler.php${neww.link}" target="_blank">Link</td>
+                                        </tr> ` ;
+                    })
                 }
             }
 
@@ -52,7 +58,13 @@
 
 
 
+
+
+
+
+            xhr.send();
         })
+        
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
